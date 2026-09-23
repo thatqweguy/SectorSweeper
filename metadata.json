@@ -1,0 +1,6 @@
+{
+  "name": "Sector Sweeper - Roguelike Minesweeper & Stealth Audit",
+  "description": "A tactical roguelike Minesweeper featuring procedural item pools, active gadgets, shields, escalating hazards, and built-in stealth camouflage skins for school or work.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

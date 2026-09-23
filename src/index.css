@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@layer utilities {
+  @keyframes screenShake {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    15% { transform: translate3d(-6px, 3px, 0); }
+    30% { transform: translate3d(6px, -4px, 0); }
+    45% { transform: translate3d(-5px, 2px, 0); }
+    60% { transform: translate3d(4px, -2px, 0); }
+    75% { transform: translate3d(-2px, 1px, 0); }
+  }
+
+  @keyframes cellReveal {
+    0% {
+      transform: scale(0.86);
+      opacity: 0.6;
+    }
+    60% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes floatUpFade {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 8px, 0) scale(0.9);
+    }
+    20% {
+      opacity: 1;
+      transform: translate3d(0, -4px, 0) scale(1.06);
+    }
+    80% {
+      opacity: 1;
+      transform: translate3d(0, -22px, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(0, -36px, 0) scale(0.92);
+    }
+  }
+
+  @keyframes pulseGoldGlow {
+    0%, 100% {
+      box-shadow: 0 0 6px rgba(245, 158, 11, 0.4), inset 0 0 4px rgba(245, 158, 11, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.9), inset 0 0 8px rgba(245, 158, 11, 0.5);
+    }
+  }
+
+  @keyframes empWave {
+    0% {
+      transform: scale(0.2);
+      opacity: 0.95;
+    }
+    50% {
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+
+  @keyframes radarPing {
+    0% {
+      transform: scale(0.4);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  @keyframes confettiDrift {
+    0% {
+      transform: translateY(-20px) rotate(0deg) scale(0.8);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(240px) rotate(480deg) scale(1.1);
+      opacity: 0;
+    }
+  }
+}
+
+.animate-screen-shake {
+  animation: screenShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.animate-cell-reveal {
+  animation: cellReveal 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-float-up {
+  animation: floatUpFade 1.6s ease-out forwards;
+}
+
+.animate-pulse-gold {
+  animation: pulseGoldGlow 1.8s infinite ease-in-out;
+}
+
+.animate-emp-wave {
+  animation: empWave 0.7s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+.animate-radar-ping {
+  animation: radarPing 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
