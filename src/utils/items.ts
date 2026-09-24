@@ -118,13 +118,13 @@ export const ALL_RELICS: Item[] = [
   },
   {
     id: 'hull_reinforcement',
-    name: 'Aegis Exoskeleton',
+    name: 'Aegis Hardlight Core',
     type: 'relic',
     rarity: 'legendary',
-    description: 'Increases Maximum Shields by +1 and immediately restores 1 shield plate.',
+    description: 'Increases Max Shields by +1. [Second Chance]: If a fatal mine blast strikes at 0 Shields, Aegis discharges: averts death, restores 1 Shield plate, and disarms the blast!',
     cost: 30,
     icon: 'ShieldAlert',
-    flavorText: 'Titanium-alloy framework forged for deep-sector sweeps.'
+    flavorText: 'When the hull fails, the hardlight matrix holds the breach.'
   },
   {
     id: 'bounty_tracker',
@@ -228,17 +228,71 @@ export const ALL_RELICS: Item[] = [
   },
   {
     id: 'aegis_battery',
-    name: 'Aegis Super-Battery',
+    name: 'Hyper-Capacitor Array',
     type: 'relic',
     rarity: 'legendary',
     description: 'Increases Maximum Shields by +2 and immediately restores 2 shield plates.',
     cost: 36,
     icon: 'ShieldPlus',
     flavorText: 'Heavy-duty modular capacitors doubling reactive defense threshold.'
+  },
+  {
+    id: 'flawless_bounty',
+    name: 'Flawless Protocol',
+    type: 'relic',
+    rarity: 'rare',
+    description: 'Clearing any sector without taking a single shield breach awards +15 bonus credits and +500 score!',
+    cost: 20,
+    icon: 'Award',
+    flavorText: 'Zero-tolerance audit excellence contract ratified by corporate command.'
+  },
+  {
+    id: 'chrono_dial',
+    name: 'Chrono Stabilizer',
+    type: 'relic',
+    rarity: 'legendary',
+    description: 'Once per sector, rewinds the first mine detonation without losing a shield plate!',
+    cost: 32,
+    icon: 'Clock',
+    flavorText: 'Tachyon field dampener reversing entropy on structural ruptures.'
+  },
+  {
+    id: 'apex_matrix',
+    name: 'Apex Core',
+    type: 'relic',
+    rarity: 'legendary',
+    description: 'Adds +1 Max Shield, +1 Max Charge to ALL gadgets, and +500 points immediately!',
+    cost: 34,
+    icon: 'Sparkles',
+    flavorText: 'Hyper-dense quantum computational core running omni-directional optimizations.'
   }
 ];
 
 export const ALL_GADGETS: Item[] = [
+  {
+    id: 'orbital_railgun',
+    name: 'Orbital Railgun',
+    type: 'gadget',
+    rarity: 'legendary',
+    description: 'Target a cell to fire an ultra-dense diagonal beam across the grid: reveals safe tiles and disarms all hidden mines!',
+    cost: 22,
+    charges: 1,
+    maxCharges: 1,
+    icon: 'Zap',
+    flavorText: 'Superconducting projectile tearing through encrypted sub-layers.'
+  },
+  {
+    id: 'cryo_pulse',
+    name: 'Sub-Zero Cryo-Cell',
+    type: 'gadget',
+    rarity: 'rare',
+    description: 'Instant effect: freezes the sector, safely revealing 4 random safe tiles and disarming the nearest cluster mine!',
+    cost: 16,
+    charges: 1,
+    maxCharges: 1,
+    icon: 'Snowflake',
+    flavorText: 'Endothermic flash-freeze locking reactive detonator mechanisms.'
+  },
   {
     id: 'sonar_scanner',
     name: 'Sonar Scanner',
@@ -373,5 +427,107 @@ export function getProceduralShopItems(
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
 
-  return shuffled.slice(0, count);
+  // Pick items and occasionally roll hacker-themed subroutines (Ghost, Prism, Glitched, Overclocked)
+  const selected = shuffled.slice(0, count).map(baseItem => {
+    const roll = rand();
+    let edition: Item['edition'] = 'standard';
+    let costMod = baseItem.cost;
+
+    if (baseItem.type === 'relic') {
+      if (roll < 0.05) {
+        edition = 'ghost'; // 5% chance: Takes 0 Relic Slots (runs as headless background daemon)!
+        costMod = Math.round(baseItem.cost * 1.5);
+      } else if (roll < 0.14) {
+        edition = 'prism'; // 9% chance: +50% credit payouts & score (multi-threaded yield)
+        costMod = Math.round(baseItem.cost * 1.3);
+      } else if (roll < 0.25) {
+        edition = 'glitched'; // 11% chance: +300 bonus score & 2 instant credits
+        costMod = Math.round(baseItem.cost * 1.15);
+      } else if (roll < 0.38) {
+        edition = 'overclocked'; // 13% chance: +150 bonus score
+        costMod = Math.round(baseItem.cost * 1.1);
+      }
+    }
+
+    return {
+      ...baseItem,
+      cost: costMod,
+      edition
+    };
+  });
+
+  return selected;
+}
+
+export function generateBoosterPack(sector: number, rng?: () => number): import('../types/game').BoosterPack {
+  const rand = rng || Math.random;
+  const packTypes = [
+    {
+      id: 'quantum_cache',
+      name: 'Quantum Subroutine Cache',
+      tagline: 'Choose 1 of 3 permanent sector modifications',
+      cost: Math.min(35, 14 + sector * 2),
+      options: [
+        {
+          id: 'opt_chords',
+          title: 'Neural Overclock',
+          description: '+300 score on every chord, and instant +12 Credits.',
+          icon: 'Sparkles',
+          actionType: 'credit_grant' as const,
+          payload: { credits: 12, score: 300 }
+        },
+        {
+          id: 'opt_shield_up',
+          title: 'Auxiliary Hull Reinforcement',
+          description: '+1 Maximum Shield plate and immediately restore 1 Shield.',
+          icon: 'ShieldPlus',
+          actionType: 'shield_grant' as const,
+          payload: { maxShields: 1 }
+        },
+        {
+          id: 'opt_relic_slot',
+          title: 'Cortex Expansion',
+          description: 'Permanently unlocks +1 Relic Slot capacity!',
+          icon: 'Layers',
+          actionType: 'relic_slot' as const,
+          payload: { slots: 1 }
+        }
+      ]
+    },
+    {
+      id: 'salvage_vault',
+      name: 'Black Market Salvage Vault',
+      tagline: 'Choose 1 of 3 rare tactical emergency supplies',
+      cost: Math.min(30, 12 + sector * 2),
+      options: [
+        {
+          id: 'opt_gadget_overclock',
+          title: 'Omni-Battery Refill',
+          description: 'Restores +1 charge to ALL currently equipped gadgets.',
+          icon: 'BatteryCharging',
+          actionType: 'gadget_upgrade' as const,
+          payload: { charges: 1 }
+        },
+        {
+          id: 'opt_capital_stim',
+          title: 'Liquid Crypto Injection',
+          description: 'Injects +25 liquid credits into your tactical balance.',
+          icon: 'Coins',
+          actionType: 'credit_grant' as const,
+          payload: { credits: 25 }
+        },
+        {
+          id: 'opt_shield_nanites',
+          title: 'Full Armor Restoration',
+          description: 'Completely repairs all damaged Shield plates to max capacity for free.',
+          icon: 'HeartPulse',
+          actionType: 'free_repair' as const,
+          payload: {}
+        }
+      ]
+    }
+  ];
+
+  const chosenIndex = Math.floor(rand() * packTypes.length);
+  return packTypes[chosenIndex];
 }

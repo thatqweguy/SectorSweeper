@@ -98,26 +98,76 @@ export function getSectorConfig(sector: number): SectorConfig {
         name: 'Sector 08: Interstellar Relay Core',
         rows: 15,
         cols: 15,
-        mines: 55,
-        clusterMines: 6,
-        glitchTiles: 5,
+        mines: 52,
+        clusterMines: 5,
+        glitchTiles: 4,
         goldenTiles: 4,
         hazardDescription: 'Extreme volatility. Use gadgets and active shields deliberately.'
       };
+    case 9:
+      return {
+        sector: 9,
+        name: 'Sector 09: Plasma Conduit Core',
+        rows: 16,
+        cols: 16,
+        mines: 60,
+        clusterMines: 6,
+        glitchTiles: 5,
+        goldenTiles: 5,
+        hazardDescription: 'Superheated magnetic conduits. Double-strength cluster formations detected.'
+      };
+    case 10:
+      return {
+        sector: 10,
+        name: 'Sector 10: Hyperborean Cryo-Vault',
+        rows: 16,
+        cols: 16,
+        mines: 68,
+        clusterMines: 7,
+        glitchTiles: 5,
+        goldenTiles: 5,
+        hazardDescription: 'Cryogenic stasis sub-matrix. Glitch frequencies and volatile cluster nodes.'
+      };
+    case 11:
+      return {
+        sector: 11,
+        name: 'Sector 11: Dark Matter Nexus',
+        rows: 17,
+        cols: 17,
+        mines: 78,
+        clusterMines: 8,
+        glitchTiles: 6,
+        goldenTiles: 5,
+        hazardDescription: 'High gravitational flux. Extreme hazard density guarding the Singularity gate.'
+      };
+    case 12:
+      return {
+        sector: 12,
+        name: 'Sector 12: APEX SINGULARITY ARCHITECT [BOSS]',
+        rows: 18,
+        cols: 18,
+        mines: 92,
+        clusterMines: 10,
+        glitchTiles: 7,
+        goldenTiles: 6,
+        hazardDescription: 'APEX BOSS THREAT MATRIX! Massive grid, unstable cluster nodes, and heavy glitch resonance.',
+        isBoss: true
+      };
     default: {
-      // Endless or Boss levels (Sector 9+)
-      const scaledRows = Math.min(16, 14 + Math.floor((sector - 8) / 2));
-      const scaledMines = Math.min(65, 50 + (sector - 8) * 4);
+      // Endless Void Mode (Sector 13+)
+      const depth = sector - 12;
+      const scaledRows = Math.min(20, 18 + Math.floor(depth / 3));
+      const scaledMines = Math.min(125, 92 + depth * 5);
       return {
         sector,
-        name: `Sector ${sector.toString().padStart(2, '0')}: Singularity Quarantine`,
+        name: `Sector ${sector.toString().padStart(2, '0')}: Endless Void - Depth ${depth}`,
         rows: scaledRows,
         cols: scaledRows,
         mines: scaledMines,
-        clusterMines: Math.min(8, 4 + Math.floor(sector / 2)),
-        glitchTiles: Math.min(6, 3 + Math.floor(sector / 3)),
-        goldenTiles: 4,
-        hazardDescription: 'Maximum threat matrix. Singularity resonance active.'
+        clusterMines: Math.min(15, 10 + Math.floor(depth / 2)),
+        glitchTiles: Math.min(10, 6 + Math.floor(depth / 2)),
+        goldenTiles: 6,
+        hazardDescription: `Uncharted void anomaly depth ${depth}. Hazardous entropy escalates without limit.`
       };
     }
   }

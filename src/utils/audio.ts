@@ -244,6 +244,198 @@ class SoundSystem {
       osc.stop(start + 0.2);
     });
   }
+
+  private lastShimmerTime: number = 0;
+  public playLegendaryShimmer() {
+    if (this.isMuted) return;
+    const now = Date.now();
+    if (now - this.lastShimmerTime < 400) return; // Prevent spamming
+    this.lastShimmerTime = now;
+
+    this.initCtx();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    if (this.stealthAudioMode) {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, t);
+      gain.gain.setValueAtTime(0.03, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.08);
+      return;
+    }
+
+    // High-tech harmonic crystalline shimmer (F#6, A#6, C#7, F7)
+    const frequencies = [1479.98, 1864.66, 2217.46, 2793.83];
+    frequencies.forEach((freq, idx) => {
+      const osc = this.ctx!.createOscillator();
+      const gain = this.ctx!.createGain();
+      const startT = t + idx * 0.045;
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, startT);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.05, startT + 0.18);
+
+      gain.gain.setValueAtTime(0.05 / (idx + 1), startT);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startT + 0.22);
+
+      osc.connect(gain);
+      gain.connect(this.ctx!.destination);
+      osc.start(startT);
+      osc.stop(startT + 0.22);
+    });
+  }
+
+  public playPackUnseal() {
+    if (this.isMuted) return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    if (this.stealthAudioMode) {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(450, t);
+      osc.frequency.exponentialRampToValueAtTime(180, t + 0.04);
+      gain.gain.setValueAtTime(0.04, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.04);
+      return;
+    }
+
+    // 1. Bass surge / power ramp
+    const subOsc = this.ctx.createOscillator();
+    const subGain = this.ctx.createGain();
+    subOsc.type = 'sawtooth';
+    subOsc.frequency.setValueAtTime(110, t);
+    subOsc.frequency.exponentialRampToValueAtTime(420, t + 0.45);
+
+    // Filter to give it that sci-fi servo / decompression charge
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(300, t);
+    filter.frequency.exponentialRampToValueAtTime(3200, t + 0.45);
+
+    subGain.gain.setValueAtTime(0.02, t);
+    subGain.gain.linearRampToValueAtTime(0.08, t + 0.35);
+    subGain.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+
+    subOsc.connect(filter);
+    filter.connect(subGain);
+    subGain.connect(this.ctx.destination);
+
+    subOsc.start(t);
+    subOsc.stop(t + 0.55);
+
+    // 2. High laser breach crackle / digital zip
+    const zipOsc = this.ctx.createOscillator();
+    const zipGain = this.ctx.createGain();
+    zipOsc.type = 'triangle';
+    zipOsc.frequency.setValueAtTime(800, t + 0.3);
+    zipOsc.frequency.exponentialRampToValueAtTime(2400, t + 0.5);
+
+    zipGain.gain.setValueAtTime(0.0001, t);
+    zipGain.gain.setValueAtTime(0.05, t + 0.3);
+    zipGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
+
+    zipOsc.connect(zipGain);
+    zipGain.connect(this.ctx.destination);
+
+    zipOsc.start(t + 0.3);
+    zipOsc.stop(t + 0.55);
+  }
+
+  public playPackReveal() {
+    if (this.isMuted) return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    if (this.stealthAudioMode) {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(700, t);
+      osc.frequency.exponentialRampToValueAtTime(1050, t + 0.05);
+      gain.gain.setValueAtTime(0.03, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.05);
+      return;
+    }
+
+    // Futuristic celestial / holo breakout fanfare (D5, F#5, A5, D6, F#6)
+    const chords = [587.33, 739.99, 880.00, 1174.66, 1479.98];
+    chords.forEach((freq, idx) => {
+      const osc = this.ctx!.createOscillator();
+      const gain = this.ctx!.createGain();
+      const startT = t + idx * 0.06;
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, startT);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.02, startT + 0.28);
+
+      gain.gain.setValueAtTime(0.07 / (1 + idx * 0.2), startT);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startT + 0.35);
+
+      osc.connect(gain);
+      gain.connect(this.ctx!.destination);
+      osc.start(startT);
+      osc.stop(startT + 0.35);
+    });
+  }
+
+  public playPackClaim() {
+    if (this.isMuted) return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    if (this.stealthAudioMode) {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(520, t);
+      osc.frequency.exponentialRampToValueAtTime(900, t + 0.04);
+      gain.gain.setValueAtTime(0.04, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.04);
+      return;
+    }
+
+    // Power injection surge + bright harmonic ping (C5, G5, C6)
+    const tones = [523.25, 783.99, 1046.50];
+    tones.forEach((freq, idx) => {
+      const osc = this.ctx!.createOscillator();
+      const gain = this.ctx!.createGain();
+      const startT = t + idx * 0.03;
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, startT);
+
+      gain.gain.setValueAtTime(0.09, startT);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startT + 0.32);
+
+      osc.connect(gain);
+      gain.connect(this.ctx!.destination);
+      osc.start(startT);
+      osc.stop(startT + 0.32);
+    });
+  }
 }
 
 export const soundManager = new SoundSystem();

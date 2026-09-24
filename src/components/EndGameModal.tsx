@@ -26,7 +26,8 @@ import {
   Flame,
   Layers,
   Sparkles,
-  Info
+  Info,
+  LogOut
 } from 'lucide-react';
 
 interface EndGameModalProps {
@@ -38,6 +39,8 @@ interface EndGameModalProps {
   seed: string;
   onRestart: () => void;
   onReplaySeed: (seed: string) => void;
+  onAscendEndless?: () => void;
+  onExitToMenu?: () => void;
 }
 
 export const EndGameModal: React.FC<EndGameModalProps> = ({
@@ -48,7 +51,9 @@ export const EndGameModal: React.FC<EndGameModalProps> = ({
   disguiseMode,
   seed,
   onRestart,
-  onReplaySeed
+  onReplaySeed,
+  onAscendEndless,
+  onExitToMenu
 }) => {
   const isClassic = disguiseMode === 'classic';
   const [activeTab, setActiveTab] = useState<'overview' | 'audit' | 'map'>('overview');
@@ -126,12 +131,12 @@ export const EndGameModal: React.FC<EndGameModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto font-mono">
       <div
         className={`w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl transition-all ${
           isClassic
-            ? 'bg-[#c0c0c0] border-4 border-t-white border-l-white border-r-[#808080] border-b-[#808080] text-black p-3 sm:p-4'
-            : 'bg-slate-900 border border-slate-800 text-slate-100 rounded-2xl p-5 sm:p-7'
+            ? 'bg-[#c0c0c0] border-4 border-t-white border-l-white border-r-[#808080] border-b-[#808080] text-black p-3 sm:p-4 font-sans'
+            : 'bg-black/95 border border-emerald-500/60 shadow-[0_0_25px_rgba(16,185,129,0.2)] text-emerald-300 rounded-2xl p-4 sm:p-6'
         }`}
       >
         {/* Win95 Header */}
@@ -605,33 +610,66 @@ export const EndGameModal: React.FC<EndGameModalProps> = ({
         </div>
 
         {/* BOTTOM ACTION BUTTONS */}
-        <div className="flex flex-col sm:flex-row gap-2.5 pt-3 border-t border-slate-800">
-          <button
-            type="button"
-            onClick={() => onReplaySeed(seed)}
-            className={`flex-1 py-3 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-              isClassic
-                ? 'bg-[#c0c0c0] border-3 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-blue-900 font-bold'
-                : 'bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-lg'
-            }`}
-            title="Retry the exact same seed layout"
-          >
-            <RotateCcw className="w-4 h-4" />
-            <span>Replay This Seed</span>
-          </button>
+        <div className="flex flex-col gap-2 pt-3 border-t border-slate-800">
+          {isVictory && onAscendEndless && (
+            <button
+              type="button"
+              onClick={onAscendEndless}
+              className={`w-full py-3 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                isClassic
+                  ? 'bg-[#c0c0c0] border-3 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-purple-900 font-bold'
+                  : 'bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl shadow-lg ring-2 ring-purple-500/50'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>ASCEND INTO ENDLESS VOID (Sector 13+)</span>
+            </button>
+          )}
 
-          <button
-            type="button"
-            onClick={onRestart}
-            className={`flex-1 py-3 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-              isClassic
-                ? 'bg-[#c0c0c0] border-3 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-black font-bold'
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700'
-            }`}
-          >
-            <Play className="w-4 h-4" />
-            <span>New Random Mission</span>
-          </button>
+          <div className="flex flex-col sm:flex-row gap-2.5">
+            <button
+              type="button"
+              onClick={() => onReplaySeed(seed)}
+              className={`flex-1 py-3 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                isClassic
+                  ? 'bg-[#c0c0c0] border-3 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-blue-900 font-bold'
+                  : 'bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-lg'
+              }`}
+              title="Retry the exact same seed layout"
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span>Replay Seed</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={onRestart}
+              className={`flex-1 py-3 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                isClassic
+                  ? 'bg-[#c0c0c0] border-3 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-black font-bold'
+                  : 'bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-lg'
+              }`}
+            >
+              <Play className="w-4 h-4" />
+              <span>New Run</span>
+            </button>
+
+            {onExitToMenu && (
+              <button
+                type="button"
+                onClick={onExitToMenu}
+                className={`py-3 px-4 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  isClassic
+                    ? 'bg-[#c0c0c0] border-3 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-red-900 font-bold'
+                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700'
+                }`}
+                title="Return to Main Menu Console"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Main Menu</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@
 
 export type ItemRarity = 'common' | 'rare' | 'legendary';
 export type ItemType = 'relic' | 'gadget';
+export type ItemEdition = 'standard' | 'overclocked' | 'glitched' | 'prism' | 'ghost';
 
 export interface Item {
   id: string;
@@ -17,6 +18,22 @@ export interface Item {
   charges?: number;
   maxCharges?: number;
   flavorText?: string;
+  edition?: ItemEdition;
+}
+
+export interface BoosterPack {
+  id: string;
+  name: string;
+  tagline: string;
+  cost: number;
+  options: {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
+    actionType: 'credit_grant' | 'shield_grant' | 'gadget_upgrade' | 'relic_slot' | 'free_repair';
+    payload?: any;
+  }[];
 }
 
 export interface Cell {
@@ -38,7 +55,9 @@ export type DisguiseMode = 'minimal' | 'classic';
 
 export type GameState = 'TITLE' | 'PLAYING' | 'SHOP' | 'SECTOR_CLEAR' | 'GAME_OVER' | 'VICTORY';
 
-export type ActiveGadgetTool = 'none' | 'sonar' | 'defuse' | 'xray' | 'cross_laser';
+export type ActiveGadgetTool = 'none' | 'sonar' | 'defuse' | 'xray' | 'cross_laser' | 'railgun';
+
+export type ChallengeProtocol = 'tactical' | 'ironclad' | 'speedrun' | 'zero_flag';
 
 export interface SectorConfig {
   sector: number;
@@ -50,6 +69,7 @@ export interface SectorConfig {
   glitchTiles: number;
   goldenTiles: number;
   hazardDescription: string;
+  isBoss?: boolean;
 }
 
 export interface SectorAuditEntry {
@@ -76,5 +96,9 @@ export interface PlayerStats {
   firstGuessSafe: boolean;
   gadgetsUsedTotal: number;
   chordsExecutedTotal: number;
+  protocol?: ChallengeProtocol;
+  isEndless?: boolean;
+  flawlessSectorsTotal?: number;
+  maxRelicSlots: number;
   sectorHistory: SectorAuditEntry[];
 }

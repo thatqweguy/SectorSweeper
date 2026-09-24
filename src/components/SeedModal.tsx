@@ -65,12 +65,12 @@ export const SeedModal: React.FC<SeedModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
       <div
         className={`w-full max-w-md shadow-2xl transition-all ${
           isClassic
-            ? 'bg-[#c0c0c0] border-4 border-t-white border-l-white border-r-[#808080] border-b-[#808080] text-black p-4'
-            : 'bg-slate-900 border border-slate-800 text-slate-100 rounded-2xl p-6 sm:p-7'
+            ? 'bg-[#c0c0c0] border-4 border-t-white border-l-white border-r-[#808080] border-b-[#808080] text-black p-4 font-sans'
+            : 'bg-black/95 border border-emerald-500/60 shadow-[0_0_30px_rgba(16,185,129,0.2)] text-emerald-300 rounded-2xl p-5 sm:p-6 font-mono'
         }`}
       >
         {/* Win95 Header */}
@@ -89,8 +89,8 @@ export const SeedModal: React.FC<SeedModalProps> = ({
             </button>
           </div>
         ) : (
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
-            <div className="flex items-center gap-2 text-indigo-400">
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-emerald-900/60">
+            <div className="flex items-center gap-2 text-emerald-400">
               <Key className="w-5 h-5" />
               <h2 className="text-base font-bold text-white tracking-wide uppercase">
                 Mission Seed Dispatcher
@@ -99,7 +99,7 @@ export const SeedModal: React.FC<SeedModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="p-1 rounded-lg text-emerald-500/70 hover:text-white hover:bg-emerald-950/60 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -111,13 +111,13 @@ export const SeedModal: React.FC<SeedModalProps> = ({
           className={`p-3.5 mb-4 ${
             isClassic
               ? 'bg-[#c0c0c0] border-2 border-t-[#808080] border-l-[#808080] border-r-white border-b-white'
-              : 'bg-slate-950/70 border border-slate-800 rounded-xl'
+              : 'bg-zinc-950 border border-emerald-900/70 rounded-xl'
           }`}
         >
           <div className="flex items-center justify-between mb-1.5">
             <span
               className={`text-[10px] font-bold uppercase tracking-wider ${
-                isClassic ? 'text-slate-700' : 'text-slate-400'
+                isClassic ? 'text-slate-700' : 'text-emerald-500/80'
               }`}
             >
               Current Active Seed:
@@ -141,7 +141,7 @@ export const SeedModal: React.FC<SeedModalProps> = ({
               className={`font-mono font-bold text-sm sm:text-base px-2.5 py-1 select-all tracking-wider truncate ${
                 isClassic
                   ? 'bg-white text-black border border-[#808080]'
-                  : 'text-indigo-300'
+                  : 'text-emerald-300 font-black'
               }`}
             >
               {currentSeed}
@@ -154,8 +154,8 @@ export const SeedModal: React.FC<SeedModalProps> = ({
                 isClassic
                   ? 'bg-[#c0c0c0] border-2 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-black'
                   : copied
-                  ? 'bg-emerald-600 text-white rounded-lg'
-                  : 'bg-indigo-600/80 hover:bg-indigo-600 text-white rounded-lg shadow-sm'
+                  ? 'bg-emerald-600 text-black font-bold rounded-lg'
+                  : 'bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/60 rounded-lg shadow-sm'
               }`}
               title="Copy seed to clipboard"
             >
@@ -179,7 +179,7 @@ export const SeedModal: React.FC<SeedModalProps> = ({
           <div>
             <label
               className={`block text-xs font-bold mb-1 ${
-                isClassic ? 'text-black' : 'text-slate-300'
+                isClassic ? 'text-black' : 'text-zinc-300'
               }`}
             >
               Launch Custom or Challenge Seed:
@@ -193,7 +193,7 @@ export const SeedModal: React.FC<SeedModalProps> = ({
                 className={`flex-1 px-3 py-2 text-sm font-mono tracking-wider font-bold rounded-lg outline-none transition-all ${
                   isClassic
                     ? 'bg-white border-2 border-t-[#808080] border-l-[#808080] border-r-white border-b-white text-black'
-                    : 'bg-slate-950 border border-slate-700 text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+                    : 'bg-black border border-emerald-900 text-emerald-200 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400'
                 }`}
               />
               <button
@@ -202,7 +202,7 @@ export const SeedModal: React.FC<SeedModalProps> = ({
                 className={`p-2 transition-colors cursor-pointer ${
                   isClassic
                     ? 'bg-[#c0c0c0] border-2 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-black'
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg'
+                    : 'bg-zinc-950 hover:bg-zinc-900 text-emerald-400 border border-emerald-800/60 rounded-lg'
                 }`}
                 title="Generate Random Seed"
               >
@@ -219,11 +219,11 @@ export const SeedModal: React.FC<SeedModalProps> = ({
               className={`px-2.5 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
                 isClassic
                   ? 'bg-[#c0c0c0] border border-t-white border-l-white border-r-[#808080] border-b-[#808080] text-blue-900 active:border-t-[#808080] active:border-l-[#808080]'
-                  : 'bg-slate-800/80 hover:bg-slate-800 text-amber-300 border border-amber-500/30 rounded-lg'
+                  : 'bg-zinc-950 hover:bg-zinc-900 text-amber-300 border border-amber-500/40 rounded-lg'
               }`}
             >
               <Calendar className="w-3.5 h-3.5" />
-              <span>Load Today's Daily ({formatDailyDate(todayDailySeed)})</span>
+              <span>Load Daily ({formatDailyDate(todayDailySeed)})</span>
             </button>
 
             <button
@@ -232,11 +232,11 @@ export const SeedModal: React.FC<SeedModalProps> = ({
               className={`px-2.5 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
                 isClassic
                   ? 'bg-[#c0c0c0] border border-t-white border-l-white border-r-[#808080] border-b-[#808080] text-black active:border-t-[#808080] active:border-l-[#808080]'
-                  : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700 rounded-lg'
+                  : 'bg-zinc-950 hover:bg-zinc-900 text-emerald-400 border border-emerald-800/60 rounded-lg'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span>Random Code</span>
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Random Seed</span>
             </button>
           </div>
         </div>
@@ -244,10 +244,10 @@ export const SeedModal: React.FC<SeedModalProps> = ({
         {/* Explanatory text */}
         <p
           className={`text-[11px] leading-relaxed mb-5 ${
-            isClassic ? 'text-slate-700' : 'text-slate-400'
+            isClassic ? 'text-slate-700' : 'text-zinc-400'
           }`}
         >
-          <strong>Deterministic Guarantee:</strong> The Seed completely locks the mine placements, golden caches, anomaly clusters, and shop inventories across all 10 sectors. Two players on the same seed and first-click coordinate will face the exact same layout!
+          <strong>Deterministic Guarantee:</strong> The Seed locks all mine placements, golden caches, anomaly clusters, and shop inventories across all sectors. Identical seeds yield identical layouts.
         </p>
 
         {/* Action Buttons */}
@@ -258,10 +258,10 @@ export const SeedModal: React.FC<SeedModalProps> = ({
             className={`flex-1 py-2.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
               isClassic
                 ? 'bg-[#c0c0c0] border-3 border-t-white border-l-white border-r-[#808080] border-b-[#808080] active:border-t-[#808080] active:border-l-[#808080] text-black font-bold'
-                : 'bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-lg'
+                : 'bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black font-black rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.35)]'
             }`}
           >
-            <Play className="w-4 h-4" />
+            <Play className="w-4 h-4 fill-current" />
             <span>Launch Run with Seed</span>
           </button>
 
@@ -271,7 +271,7 @@ export const SeedModal: React.FC<SeedModalProps> = ({
             className={`py-2.5 px-4 font-semibold text-xs sm:text-sm transition-colors cursor-pointer ${
               isClassic
                 ? 'bg-[#c0c0c0] border-2 border-t-white border-l-white border-r-[#808080] border-b-[#808080] text-black'
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700'
+                : 'bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl border border-zinc-700'
             }`}
           >
             Cancel

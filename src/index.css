@@ -53,6 +53,15 @@
     }
   }
 
+  @keyframes pulseHackerGlow {
+    0%, 100% {
+      box-shadow: 0 0 6px rgba(34, 197, 94, 0.3), inset 0 0 4px rgba(34, 197, 94, 0.15);
+    }
+    50% {
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.7), inset 0 0 8px rgba(34, 197, 94, 0.4);
+    }
+  }
+
   @keyframes empWave {
     0% {
       transform: scale(0.2);
@@ -78,16 +87,101 @@
     }
   }
 
-  @keyframes confettiDrift {
+  @keyframes scanlineFlicker {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+  }
+
+  @keyframes foilSheen {
+    0% { transform: translateX(-150%) rotate(25deg); }
+    100% { transform: translateX(250%) rotate(25deg); }
+  }
+
+  @keyframes unsealJitter {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(-3px, 2px) rotate(-0.5deg); }
+    20% { transform: translate(3px, -2px) rotate(0.5deg); }
+    30% { transform: translate(-4px, -1px) rotate(-1deg); }
+    40% { transform: translate(4px, 1px) rotate(1deg); }
+    50% { transform: translate(-3px, 3px) rotate(-0.5deg); }
+    60% { transform: translate(3px, -1px) rotate(0.5deg); }
+    70% { transform: translate(-2px, -3px) rotate(-0.5deg); }
+    80% { transform: translate(2px, 2px) rotate(0.5deg); }
+    90% { transform: translate(-1px, -1px) rotate(0deg); }
+  }
+
+  @keyframes laserCut {
+    0% { transform: scaleX(0); opacity: 0.2; }
+    50% { transform: scaleX(1); opacity: 1; filter: drop-shadow(0 0 12px #38bdf8); }
+    90% { transform: scaleX(1.1); opacity: 0.9; }
+    100% { transform: scaleX(1); opacity: 0; }
+  }
+
+  @keyframes cardEmerge {
     0% {
-      transform: translateY(-20px) rotate(0deg) scale(0.8);
+      opacity: 0;
+      transform: translateY(35px) scale(0.88) rotateX(20deg);
+      filter: blur(4px);
+    }
+    60% {
       opacity: 1;
+      transform: translateY(-6px) scale(1.03) rotateX(-4deg);
+      filter: blur(0px);
     }
     100% {
-      transform: translateY(240px) rotate(480deg) scale(1.1);
-      opacity: 0;
+      opacity: 1;
+      transform: translateY(0) scale(1) rotateX(0deg);
+      filter: blur(0px);
     }
   }
+
+  @keyframes holoGlowPulse {
+    0%, 100% {
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.35), inset 0 0 10px rgba(168, 85, 247, 0.15);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.7), 0 0 45px rgba(56, 189, 248, 0.3), inset 0 0 16px rgba(168, 85, 247, 0.3);
+    }
+  }
+
+  @keyframes claimBurst {
+    0% {
+      transform: scale(1);
+      filter: brightness(1);
+    }
+    40% {
+      transform: scale(1.06);
+      filter: brightness(1.5) drop-shadow(0 0 25px rgba(52, 211, 153, 0.9));
+    }
+    100% {
+      transform: scale(1.02);
+      filter: brightness(1.15) drop-shadow(0 0 15px rgba(52, 211, 153, 0.6));
+    }
+  }
+}
+
+.animate-foil-sheen {
+  animation: foilSheen 3.2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-unseal-jitter {
+  animation: unsealJitter 0.35s infinite ease-in-out;
+}
+
+.animate-laser-cut {
+  animation: laserCut 0.85s ease-out forwards;
+}
+
+.animate-card-emerge {
+  animation: cardEmerge 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-holo-pulse {
+  animation: holoGlowPulse 2.4s infinite ease-in-out;
+}
+
+.animate-claim-burst {
+  animation: claimBurst 0.5s ease-out forwards;
 }
 
 .animate-screen-shake {
@@ -106,10 +200,36 @@
   animation: pulseGoldGlow 1.8s infinite ease-in-out;
 }
 
+.animate-pulse-hacker {
+  animation: pulseHackerGlow 2s infinite ease-in-out;
+}
+
 .animate-emp-wave {
   animation: empWave 0.7s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
 }
 
 .animate-radar-ping {
   animation: radarPing 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+/* Cyber Matrix scanlines background overlay */
+.hacker-scanlines {
+  background: linear-gradient(
+    rgba(18, 24, 18, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(34, 197, 94, 0.03),
+    rgba(0, 255, 100, 0.01),
+    rgba(0, 0, 0, 0)
+  );
+  background-size: 100% 4px, 6px 100%;
+}
+
+.cyber-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(34, 197, 94, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 197, 94, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
